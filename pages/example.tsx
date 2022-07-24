@@ -1,5 +1,11 @@
+import { Layout } from "../components/Layout";
+
 const Example = () => {
-    return <div>Example Page</div>
+    return (
+        <Layout>
+            <div>Example Page</div>
+        </Layout>
+    )
 }
 
 export default Example;

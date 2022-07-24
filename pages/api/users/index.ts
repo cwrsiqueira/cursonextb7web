@@ -1,46 +1,26 @@
 import { NextApiHandler } from "next";
+import api from "../../../libs/api";
 import prisma from "../../../libs/prisma";
 
+// GET ALL USERS
 const HandlerGet: NextApiHandler = async (req, res) => {
-    const { page } = req.query
-    let take = 2
-    let currentPage = parseInt(page as string) > 0 ? parseInt(page as string) : 1
-    let skip = (currentPage - 1) * take || 0
-    const users = await prisma.user.findMany({
-        take,
-        skip,
-        where: {
-            active: true
-        },
-        select: {
-            id: true,
-            name: true,
-            email: true,
-            active: true,
-        },
-        orderBy: {
-            name: 'asc'
-        }
-    }).catch((e) => {
-        // throw e
-        res.status(400).json({ status: 400, error: '400 Bad Request' })
-    })
-
+    const { perPage, page, active } = req.query;
+    const users = await api.getAllUsers(parseInt(perPage as string), parseInt(page as string), active == 'true')
     res.status(200).json({ status: 200, users })
 }
 
+// CREATE USER
 const HandlerPost: NextApiHandler = async (req, res) => {
     const { name, email } = req.body
-
-    const newUser = await prisma.user.create({
-        data: { name, email }
-    }).catch((e) => {
-        res.status(400).json({ status: 400, error: '400 Bad Request', e })
-    })
-
-    res.status(201).json({ status: 200, user: newUser })
+    const response = await api.createUser(name, email)
+    if (response.error) {
+        res.status(400).json({ response })
+        return;
+    }
+    res.status(201).json({ response: { user: response } })
 }
 
+// DEFINE METHOD
 const Handler: NextApiHandler = (req, res) => {
     switch (req.method) {
         case 'GET':

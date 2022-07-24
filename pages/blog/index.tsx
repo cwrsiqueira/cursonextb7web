@@ -1,6 +1,7 @@
 import Link from "../../node_modules/next/link";
 import React from "react";
 import { Post } from "../../types/Post";
+import { Layout } from "../../components/Layout";
 
 type Props = {
     name: string;
@@ -9,19 +10,21 @@ type Props = {
 
 const Blog = ({ name, posts }: Props) => {
     return (
-        <div>
-            <h1>Blog</h1>
-            <p>Blog do { name }</p>
-            <ul>
-                {posts.map((post, index) => (
-                    <li key={index}>
-                        <Link href={`/blog/${post.id}`}>
-                            <a>{post.id} - {post.title}</a>
-                        </Link>
-                    </li>
-                ))}
-            </ul>
-        </div>
+        <Layout>
+            <div>
+                <h1>Blog</h1>
+                <p>Blog do {name}</p>
+                <ul>
+                    {posts.map((post, index) => (
+                        <li key={index}>
+                            <Link href={`/blog/${post.id}`}>
+                                <a>{post.id} - {post.title}</a>
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </Layout>
     );
 }
 

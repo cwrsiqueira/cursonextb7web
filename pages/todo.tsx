@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
+import { Layout } from "../components/Layout";
 import { Todo } from "../types/Todo";
 
 const Todo = () => {
     const [todoList, setTodoList] = useState<Todo[]>([]);
     const [loading, setLoading] = useState(false);
 
-    useEffect(()=>{
+    useEffect(() => {
         loadTodoList()
     }, []);
 
@@ -17,19 +18,21 @@ const Todo = () => {
     }
 
     return (
-        <div>
-            <h1>Todo List</h1>
+        <Layout>
+            <div>
+                <h1>Todo List</h1>
 
-            {loading &&
-                <div>Loading...</div>
-            }
+                {loading &&
+                    <div>Loading...</div>
+                }
 
-            <ul>
-                {todoList.map((item, index) => (
-                    <li key={index}>{ item.title } - { item.completed ? 'DONE' : 'UNDONE' }</li>
-                ))}
-            </ul>
-        </div>
+                <ul>
+                    {todoList.map((item, index) => (
+                        <li key={index}>{item.title} - {item.completed ? 'DONE' : 'UNDONE'}</li>
+                    ))}
+                </ul>
+            </div>
+        </Layout>
     )
 }
 

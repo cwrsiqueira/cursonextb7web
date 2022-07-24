@@ -2,6 +2,7 @@ import React from "react";
 import { Post } from "../../types/Post";
 import { GetStaticProps } from "next";
 import { ParsedUrlQuery } from "querystring";
+import { Layout } from "../../components/Layout";
 
 type Props = {
     post: Post
@@ -9,11 +10,13 @@ type Props = {
 
 const Post = ({ post }: Props) => {
     return (
-        <div>
-            <h1>Post { post.id }</h1>
-            <h2>{ post.title }</h2>
-            <p>{ post.body }</p>
-        </div>
+        <Layout>
+            <div>
+                <h1>Post {post.id}</h1>
+                <h2>{post.title}</h2>
+                <p>{post.body}</p>
+            </div>
+        </Layout>
     );
 }
 
