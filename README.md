@@ -1,3 +1,11 @@
+# CURSO REACT JS - www.b7web.com
+
+## CONCLUÍDO O CURSO
+
+- Material do curso Next JS da B7Web ministrada pelo professor Bonieky Lacerda
+
+===========================================================
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
