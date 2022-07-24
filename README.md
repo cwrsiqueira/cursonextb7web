@@ -1,4 +1,4 @@
-# CURSO REACT JS - www.b7web.com
+# CURSO NEXT JS - www.b7web.com
 
 ## CONCLUÍDO O CURSO
 
