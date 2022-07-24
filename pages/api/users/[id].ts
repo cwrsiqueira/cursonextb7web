@@ -5,39 +5,42 @@ import prisma from "../../../libs/prisma";
 // GET ONE USER
 const HandlerGet: NextApiHandler = async (req, res) => {
     const { id } = req.query
-    const response = await api.getOneUser(id)
-    if (response.error) {
-        res.status(400).json({ response })
-        return;
+    const user = await api.getOneUser(parseInt(id as string))
+        .catch((e) => {
+            res.status(400).json({ error: e })
+        })
+
+    if (!user) {
+        res.status(200).json({ error: "Usuário não encontrado" })
     }
-    res.status(201).json({ response: { user: response } })
+
+    res.status(200).json({ user })
+
 }
 
 // UPDATE USER
 const handlerPut: NextApiHandler = async (req, res) => {
     const { id } = req.query
     let { name, active, role } = req.body
-    if (req.body.active) {
-        active = req.body.active == 'true' || req.body.active == '1'
-    }
-    const response = await api.updateUser(id, name, active, role)
-    if (response.error) {
-        res.status(400).json({ response })
-        return;
-    }
-    res.status(201).json({ response: { user: response } })
+    const user = await api.updateUser(parseInt(id as string), name, active, role)
+        .catch((e) => {
+            res.status(400).json({ error: e })
+        })
+
+    res.status(200).json({ user })
+
 }
 
 // DELETE USER
 const handlerDelete: NextApiHandler = async (req, res) => {
     const { id } = req.query
 
-    const response = await api.deleteUser(id)
-    if (response.error) {
-        res.status(400).json({ response })
-        return;
-    }
-    res.status(201).json({ response: { user: response } })
+    const user = await api.deleteUser(parseInt(id as string))
+        .catch((e) => {
+            res.status(400).json({ error: e })
+        })
+
+    res.status(200).json({ success: "Usuário deletado com suecsso" })
 }
 
 // DEFINE METHOD

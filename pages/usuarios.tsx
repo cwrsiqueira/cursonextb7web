@@ -30,7 +30,7 @@ const Usuarios = ({ users }: Props) => {
 
 export const getServerSideProps = async () => {
 
-    const users = await api.getAllUsers(4, 2, true)
+    const users = await api.getAllUsers()
 
     return {
         props: {
