@@ -6,6 +6,7 @@ import styles from '../../styles/Usuarios.module.css'
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/router"
+import axios from "axios"
 
 type Props = {
     users: User[]
@@ -22,12 +23,13 @@ const Usuarios = ({ users }: Props) => {
     const handleLoadMore = async () => {
         if (!loading) {
             setLoading(true)
-            const req = await fetch(`/api/users?perPage=${perPage}&page=${pageCount + 1}&active=true`)
-            const json = await req.json()
-            if (json.status == 200) {
-                setUserList([...userList, ...json.users])
+
+            const json = await axios.get(`/api/users?perPage=${perPage}&page=${pageCount + 1}&active=true`)
+
+            if (json.data.status == 200) {
+                setUserList([...userList, ...json.data.users])
             }
-            if (json.users.length < perPage) {
+            if (json.data.users.length < perPage) {
                 setBtnActive(false)
             }
             setLoading(false)
@@ -36,14 +38,11 @@ const Usuarios = ({ users }: Props) => {
     }
 
     const handleDelete = async (id: number) => {
-        const req = await fetch(`/api/users/${id}`, {
-            method: "DELETE",
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        const json = await req.json()
-        if (json.error) {
+        if (!confirm('Confirma a exclusão do usuário?')) {
+            return;
+        }
+        const json = await axios.delete(`/api/users/${id}`)
+        if (json.data.error) {
             alert('Erro ao excluir')
         }
         document.querySelector('.id' + id).remove()

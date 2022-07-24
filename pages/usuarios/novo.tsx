@@ -3,6 +3,7 @@ import { Layout } from "../../components/Layout"
 import styles from "../../styles/UsuariosNovo.module.css"
 import { useState } from "react"
 import { useRouter } from "next/router"
+import axios from "axios"
 
 const UsuariosNovo = () => {
     const router = useRouter()
@@ -15,18 +16,9 @@ const UsuariosNovo = () => {
             return;
         }
 
-        const req = await fetch(`/api/users`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                name,
-                email
-            })
-        })
-        const json = await req.json()
-        if (json.error) {
+        const json = await axios.post('/api/users', { name, email })
+
+        if (json.data.error) {
             alert('Erro no cadastro')
             return;
         }
