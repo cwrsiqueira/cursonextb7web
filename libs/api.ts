@@ -37,6 +37,12 @@ const api = {
         })
     },
 
+    getOneUserByEmail: async (email: string) => {
+        return await prisma.user.findUnique({
+            where: { email }
+        })
+    },
+
     updateUser: async (id: number, name?: string, active?: string, role?: string) => {
         let data: {
             name?: string,

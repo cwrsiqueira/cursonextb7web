@@ -3,16 +3,24 @@ import { Layout } from "../../components/Layout"
 import api from "../../libs/api"
 import { User } from "../../types/User"
 import styles from '../../styles/Usuarios.module.css'
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import axios from "axios"
+import { useSession } from "next-auth/react"
+import { GetServerSideProps } from "next"
+import { unstable_getServerSession } from "next-auth"
+import { authOptions } from "../api/auth/[...nextauth]"
+import { AuthUser } from "../../types/AuthUser"
 
 type Props = {
-    users: User[]
+    users: User[];
+    loggedUser: AuthUser;
 }
 
-const Usuarios = ({ users }: Props) => {
+const Usuarios = ({ users, loggedUser }: Props) => {
+    const { data: session, status: sessionStatus } = useSession();
+
     const router = useRouter()
     const [userList, setUserList] = useState(users)
     const [loading, setLoading] = useState(false)
@@ -55,30 +63,47 @@ const Usuarios = ({ users }: Props) => {
                     <title>Usuários</title>
                 </Head>
 
-                <h1>Página Usuários</h1>
+                {sessionStatus === 'loading' &&
+                    <div>Carregando...</div>
+                }
 
-                <Link href={`/usuarios/novo`}><button>Adicionar Usuário</button></Link>
+                {sessionStatus === 'unauthenticated' &&
+                    <div>Você não tem autorização para acessar este conteúdo.</div>
+                }
 
-                <ul>
-                    {userList.map((item, index) => (
-                        <li className={`${styles.li} id${item.id}`} key={index}>{item.name} - <button onClick={() => handleDelete(item.id)}>[ X ]</button></li>
-                    ))}
-                </ul>
+                {sessionStatus === 'authenticated' &&
+                    <>
+                        <h1>Página Usuários</h1>
 
-                {btnActive &&
-                    <button onClick={handleLoadMore}>Carregar mais...</button>
+                        <h3>Olá {loggedUser.name} - Tipo: {loggedUser.role}</h3>
+
+                        <Link href={`/usuarios/novo`}><button>Adicionar Usuário</button></Link>
+
+                        <ul>
+                            {userList.map((item, index) => (
+                                <li className={`${styles.li} id${item.id}`} key={index}>{item.name} - <button onClick={() => handleDelete(item.id)}>[ X ]</button></li>
+                            ))}
+                        </ul>
+
+                        {btnActive &&
+                            <button onClick={handleLoadMore}>Carregar mais...</button>
+                        }
+                    </>
                 }
             </div>
         </Layout >
     )
 }
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const session = await unstable_getServerSession(context.req, context.res, authOptions);
+    if (!session) return { redirect: { destination: '/', permanent: true } }
 
     const users = await api.getAllUsers()
 
     return {
         props: {
+            loggedUser: session.user,
             users
         }
     }
