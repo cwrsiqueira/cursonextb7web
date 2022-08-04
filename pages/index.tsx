@@ -28,6 +28,10 @@ export default function Home({ loggedUser }: Props) {
           </Head>
 
           <main>
+            <div className={styles.imgArea}>
+              <Image src={session.user.image} alt="userImg" width={80} height={80} />
+            </div>
+
             <h1>Olá {session.user.name}</h1>
           </main>
 

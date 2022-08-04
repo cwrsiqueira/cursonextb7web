@@ -1,11 +1,26 @@
 import NextAuth, { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
+import googleProvider from "next-auth/providers/google"
+import githubProvider from "next-auth/providers/github"
+import facebookProvider from "next-auth/providers/facebook"
 import api from "../../../libs/api";
 import { AuthUser } from "../../../types/AuthUser";
 
 export const authOptions: NextAuthOptions = {
     secret: process.env.NEXTAUTH_SECRET,
     providers: [
+        googleProvider({
+            clientId: process.env.GOOGLE_ID,
+            clientSecret: process.env.GOOGLE_SECRET
+        }),
+        githubProvider({
+            clientId: process.env.GITHUB_ID,
+            clientSecret: process.env.GITHUB_SECRET
+        }),
+        facebookProvider({
+            clientId: process.env.FACEBOOK_ID,
+            clientSecret: process.env.FACEBOOK_SECRET
+        }),
         CredentialsProvider({
             id: 'credentials',
             credentials: {
@@ -39,7 +54,7 @@ export const authOptions: NextAuthOptions = {
         }
     },
     pages: {
-        signIn: '/login'
+        // signIn: '/login'
     }
 }
 
