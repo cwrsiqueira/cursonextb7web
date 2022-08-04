@@ -16,7 +16,12 @@ export const authOptions: NextAuthOptions = {
                 if (credentials && credentials.email && credentials.password) {
                     const user = await api.getOneUserByEmail(credentials.email)
                     if (user) {
-                        return user;
+                        return {
+                            id: user.id,
+                            name: user.name,
+                            email: user.email,
+                            role: user.role
+                        }
                     }
                 }
                 return null;
@@ -32,6 +37,9 @@ export const authOptions: NextAuthOptions = {
             if (token) session.user = token.user as AuthUser;
             return session;
         }
+    },
+    pages: {
+        signIn: '/login'
     }
 }
 
