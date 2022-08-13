@@ -19,6 +19,11 @@ const nextConfig = {
       'platform-lookaside.fbsbx.com'
     ],
   },
+  i18n: {
+    locales: ['en', 'pt', 'fr'],
+    defaultLocale: 'en',
+    localeDetection: false
+  }
 }
 
 module.exports = nextConfig

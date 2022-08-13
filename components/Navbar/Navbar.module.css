@@ -21,3 +21,8 @@
     text-decoration: underline;
     color: #fff
 }
+
+.selected {
+    color: white !important;
+    text-decoration: underline !important;
+}

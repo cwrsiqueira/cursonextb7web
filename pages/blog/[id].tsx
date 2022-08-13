@@ -22,15 +22,27 @@ const Post = ({ post }: Props) => {
 
 export default Post;
 
+type IPath = {
+    params: {
+        id: string
+    },
+    locale: string
+}
+
 export const getStaticPaths = async () => {
     const res = await fetch("https://jsonplaceholder.typicode.com/posts");
     const posts: Post[] = await res.json();
 
-    const paths = posts.map(post => ({
-        params: {
-            id: post.id.toString()
-        }
-    }));
+    let paths: IPath[] = [];
+
+    posts.map(post => {
+        ['en', 'pt', 'fr'].map(lang => {
+            paths.push({
+                params: { id: post.id.toString() },
+                locale: lang
+            })
+        })
+    })
 
     return { paths, fallback: false }
 }
@@ -41,8 +53,9 @@ interface IParams extends ParsedUrlQuery {
 
 export const getStaticProps: GetStaticProps = async (context) => {
     const { id } = context.params as IParams;
+    const { locale } = context;
 
-    const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`);
+    const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}?language=${locale}`);
     const post: Post[] = await res.json();
 
     return {
