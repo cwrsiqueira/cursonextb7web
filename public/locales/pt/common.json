@@ -1,0 +1,13 @@
+{
+    "welcome": "Bemvindo, {{user}}",
+    "Create Next App": "Construir App Next",
+    "disconected": "Desconectado",
+    "My Header": "Meu cabeçalho",
+    "footer": {
+        "All rights reserved": "Todos os direitos reservados"
+    },
+    "navbar": {
+        "logout": "Sair",
+        "login": "Entrar"
+    }
+}

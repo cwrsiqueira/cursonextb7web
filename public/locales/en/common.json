@@ -1,0 +1,13 @@
+{
+    "welcome": "Welcome, {{user}}",
+    "Create Next App": "Create Next App",
+    "disconected": "Disconected",
+    "My Header": "My Header",
+    "footer": {
+        "All rights reserved": "All rights reserved"
+    },
+    "navbar": {
+        "logout": "Logout",
+        "login": "Login"
+    }
+}

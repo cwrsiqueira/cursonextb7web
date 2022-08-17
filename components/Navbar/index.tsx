@@ -4,11 +4,13 @@ import { navigationLinks } from '../../utils/data';
 import { useRouter } from 'next/router';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useState } from 'react';
+import { useTranslation } from 'next-i18next';
 
 const NavBar = () => {
     const router = useRouter()
     const { data: session } = useSession();
     const [path, setPath] = useState(router.locale);
+    const { t } = useTranslation('common');
 
     const handleLang = (e: string) => {
         router.push(router.pathname, router.pathname, { locale: e })
@@ -24,11 +26,11 @@ const NavBar = () => {
                 ))}
                 <li>
                     {session &&
-                        <button onClick={() => signOut()}>Sair</button>
+                        <button onClick={() => signOut()}>{t('navbar.logout')}</button>
                     }
 
                     {!session &&
-                        <button onClick={() => signIn()}>Entrar</button>
+                        <button onClick={() => signIn()}>{t('navbar.login')}</button>
                     }
                 </li>
                 <ul>

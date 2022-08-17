@@ -1,0 +1,13 @@
+{
+    "welcome": "Bienvenu, {{user}}",
+    "Create Next App": "Créer une application Nextjs",
+    "disconected": "Débranché",
+    "My Header": "Mon En-tête",
+    "footer": {
+        "All rights reserved": "Tous les droits sont réservés"
+    },
+    "navbar": {
+        "logout": "Se déconnecter",
+        "login": "Connexion"
+    }
+}
